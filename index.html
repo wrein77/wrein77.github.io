@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BIO WREIN</title>
     <style>
+        :root {
+            --bg-color: black;
+            --text-color: limegreen;
+            --accent-color: limegreen;
+            --hover-color: #00ff00;
+        }
+
+        .light-theme {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+            --accent-color: #555;
+            --hover-color: #777;
+        }
+
         body {
-            background-color: black;
-            color: limegreen;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -18,6 +32,22 @@
             gap: 15px;
             position: relative;
             overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-color);
+            z-index: 100;
         }
         
         .corner-image {
@@ -28,8 +58,8 @@
             height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid limegreen;
-            box-shadow: 0 0 15px limegreen;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
             animation: pulse 2s infinite;
         }
         
@@ -39,6 +69,7 @@
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
+            color: var(--text-color);
         }
         
         .main-title::after {
@@ -47,7 +78,7 @@
             right: 0;
             width: 2px;
             height: 100%;
-            background: limegreen;
+            background: var(--accent-color);
             animation: blink 0.7s infinite;
         }
         
@@ -58,16 +89,18 @@
             margin: 0;
             opacity: 0;
             transform: translateY(20px);
+            color: var(--text-color);
         }
         
         .typing-link {
             font-size: 24px;
-            color: limegreen;
+            color: var(--accent-color);
             text-decoration: none;
             padding: 10px 20px;
             opacity: 0;
             transform: translateY(20px);
             cursor: pointer;
+            transition: all 0.3s;
         }
         
         .price-screen {
@@ -79,9 +112,9 @@
         
         .price-btn {
             font-size: 20px;
-            color: limegreen;
+            color: var(--accent-color);
             background: transparent;
-            border: 1px solid limegreen;
+            border: 1px solid var(--accent-color);
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
@@ -89,26 +122,30 @@
         }
         
         .price-btn:hover {
-            background: limegreen;
-            color: black;
-            box-shadow: 0 0 15px limegreen;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--accent-color);
         }
         
         .back-btn {
             font-size: 18px;
-            color: limegreen;
+            color: var(--accent-color);
             background: transparent;
             border: none;
             cursor: pointer;
             margin-top: 10px;
         }
         
-        .reviews-text {
+        .reviews-screen {
             display: none;
-            font-size: 18px;
-            color: limegreen;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            margin-top: 20px;
+        }
+        
+        .reviews-text {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         
         @keyframes typing {
@@ -132,13 +169,14 @@
         }
         
         .typing-link:hover {
-            text-shadow: 0 0 10px limegreen;
+            text-shadow: 0 0 10px var(--hover-color);
             transform: scale(1.1);
-            transition: all 0.3s;
         }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    
     <img src="https://i.postimg.cc/1tm5gTyR/vertical-shot-grey-cat-with-blue-eyes-dark-181624-34787.jpg" 
          alt="Кот с голубыми глазами" 
          class="corner-image">
@@ -162,10 +200,13 @@
     <div class="price-screen" id="priceScreen">
         <a href="http://t.me/send?start=IVOTwQe9njbk" target="_blank" class="price-btn">Пак - 0.2$/25⭐️</a>
         <a href="http://t.me/send?start=IVFx6NVTGl0x" target="_blank" class="price-btn">Эдит - 0.3$/25+15⭐️</a>
-        <button class="back-btn" id="backBtn">Назад</button>
+        <button class="back-btn" id="priceBackBtn">Назад</button>
     </div>
     
-    <div class="reviews-text" id="reviewsText">Пока отзывов нет</div>
+    <div class="reviews-screen" id="reviewsScreen">
+        <div class="reviews-text">Отзывов пока нет</div>
+        <button class="back-btn" id="reviewsBackBtn">Назад</button>
+    </div>
 
     <script>
         // Анимация появления элементов
@@ -196,26 +237,37 @@
             }, 300);
         }
 
+        // Переключение темы
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            themeToggle.textContent = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
+        });
+
         // Переключение на экран с ценами
         document.getElementById('priceBtn').addEventListener('click', function() {
             document.getElementById('mainScreen').style.display = 'none';
             document.getElementById('priceScreen').style.display = 'flex';
-            document.getElementById('reviewsText').style.display = 'none';
+            document.getElementById('reviewsScreen').style.display = 'none';
         });
 
-        // Возврат в главное меню
-        document.getElementById('backBtn').addEventListener('click', function() {
+        // Переключение на экран с отзывами
+        document.getElementById('reviewsBtn').addEventListener('click', function() {
+            document.getElementById('mainScreen').style.display = 'none';
+            document.getElementById('priceScreen').style.display = 'none';
+            document.getElementById('reviewsScreen').style.display = 'flex';
+        });
+
+        // Возврат в главное меню из цен
+        document.getElementById('priceBackBtn').addEventListener('click', function() {
             document.getElementById('priceScreen').style.display = 'none';
             document.getElementById('mainScreen').style.display = 'flex';
-            document.getElementById('reviewsText').style.display = 'none';
         });
 
-        // Показ отзывов
-        document.getElementById('reviewsBtn').addEventListener('click', function() {
-            document.getElementById('reviewsText').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('reviewsText').style.opacity = '1';
-            }, 10);
+        // Возврат в главное меню из отзывов
+        document.getElementById('reviewsBackBtn').addEventListener('click', function() {
+            document.getElementById('reviewsScreen').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'flex';
         });
 
         // Запуск анимации при загрузке страницы
