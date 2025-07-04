@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="ru">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,105 +10,126 @@
       --text-color: #7afc72;
       --accent-color: #4bdc4b;
       --hover-color: #00ff00;
-    }body {
-  margin: 0;
-  overflow-x: hidden;
-  font-family: Arial, sans-serif;
-  color: var(--text-color);
-  perspective: 1px;
-  transform-style: preserve-3d;
-  height: 100vh;
-}
+    }
 
-.parallax-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform-origin: 0;
-  pointer-events: none;
-}
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      color: var(--text-color);
+      perspective: 1px;
+      transform-style: preserve-3d;
+      height: 100vh;
+      background-color: var(--bg-color);
+    }
 
-/* CSS-градиенты вместо изображений */
-.layer-bg {
-  background: linear-gradient(180deg, #0f1f10 0%, #052a17 100%);
-  transform: translateZ(-1px) scale(2);
-}
+    .parallax-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: 0;
+      pointer-events: none;
+    }
 
-.layer-mid {
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(75, 220, 75, 0.2) 0%,
-    rgba(75, 220, 75, 0.2) 10%,
-    transparent 10%,
-    transparent 20%
-  );
-  transform: translateZ(-0.5px) scale(1.5);
-}
+    .layer-bg {
+      background: linear-gradient(180deg, #0f1f10 0%, #052a17 100%);
+      transform: translateZ(-1px) scale(2);
+    }
 
-.layer-front {
-  background: radial-gradient(
-    circle at center,
-    rgba(122, 252, 114, 0.3) 10%,
-    transparent 70%
-  );
-  transform: translateZ(0px) scale(1);
-}
+    .layer-mid {
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(75, 220, 75, 0.2) 0%,
+        rgba(75, 220, 75, 0.2) 10%,
+        transparent 10%,
+        transparent 20%
+      );
+      transform: translateZ(-0.5px) scale(1.5);
+    }
 
-.content {
-  position: relative;
-  z-index: 10;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 100px 20px;
-  text-align: center;
-}
+    .layer-front {
+      background: radial-gradient(
+        circle at center,
+        rgba(122, 252, 114, 0.3) 10%,
+        transparent 70%
+      );
+      transform: translateZ(0px) scale(1);
+    }
 
-h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px var(--accent-color);
-}
+    .content {
+      position: relative;
+      z-index: 10;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 100px 20px 50px;
+      text-align: center;
+    }
 
-.bio {
-  line-height: 1.5;
-  margin-bottom: 40px;
-}
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px var(--accent-color);
+    }
 
-.links a {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 20px;
-  border: 2px solid var(--accent-color);
-  border-radius: 4px;
-  color: var(--text-color);
-  text-decoration: none;
-  transition: background 0.3s, color 0.3s;
-}
-.links a:hover {
-  background: var(--accent-color);
-  color: var(--bg-color);
-  box-shadow: 0 0 10px var(--accent-color);
-}
+    .bio {
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
 
-/* Three.js canvas */
-canvas.fullscreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
+    .links a,
+    .price-toggle,
+    .price-options a {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      border: 2px solid var(--accent-color);
+      border-radius: 4px;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+      cursor: pointer;
+    }
 
+    .links a:hover,
+    .price-toggle:hover,
+    .price-options a:hover {
+      background: var(--accent-color);
+      color: var(--bg-color);
+      box-shadow: 0 0 10px var(--accent-color);
+    }
+
+    .price-options {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .reviews {
+      margin-top: 80px;
+      padding: 20px;
+      border-top: 1px solid var(--accent-color);
+      font-size: 1.2rem;
+    }
+
+    canvas.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
   <!-- Parallax layers -->
   <div class="parallax-layer layer-bg"></div>
   <div class="parallax-layer layer-mid"></div>
-  <div class="parallax-layer layer-front"></div>  <!-- Three.js 3D фон частицами --><canvas id="three-bg" class="fullscreen"></canvas>
+  <div class="parallax-layer layer-front"></div>
+  <canvas id="three-bg" class="fullscreen"></canvas>
 
   <div class="content">
     <h1>BIO WREIN</h1>
@@ -120,8 +142,21 @@ canvas.fullscreen {
     <div class="links">
       <a href="http://t.me/anonaskbot?start=uKFtqoBX7OvIfdq" target="_blank">Связаться (без аккаунта)</a>
       <a href="https://t.me/luksius" target="_blank">Владелец сайта</a>
+      <div class="price-toggle" onclick="togglePrice()">Прайс</div>
+      <div class="price-options" id="priceOptions">
+        <a href="http://t.me/send?start=IVOTwQe9njbk" target="_blank">Пак — 0.2$/15⭐️</a>
+        <a href="http://t.me/send?start=IVFx6NVTGl0x" target="_blank">Эдит — 0.3$/25⭐️</a>
+      </div>
     </div>
-  </div>  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r142/three.min.js"></script>  <script>
+
+    <div class="reviews">
+      <strong>Отзывы</strong><br />
+      отзывов пока нет
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r142/three.min.js"></script>
+  <script>
     document.addEventListener('scroll', () => {
       const top = document.documentElement.scrollTop;
       document.querySelectorAll('.parallax-layer').forEach((layer, i) => {
@@ -155,5 +190,11 @@ canvas.fullscreen {
       renderer.render(scene, camera);
     }
     animate();
-  </script></body>
+
+    function togglePrice() {
+      const priceBox = document.getElementById('priceOptions');
+      priceBox.style.display = priceBox.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+</body>
 </html>
