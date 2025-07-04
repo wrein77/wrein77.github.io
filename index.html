@@ -67,19 +67,7 @@
             font-size: 48px;
             font-weight: bold;
             margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
             color: var(--text-color);
-        }
-        
-        .main-title::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            width: 2px;
-            height: 100%;
-            background: var(--accent-color);
-            animation: blink 0.7s infinite;
         }
         
         .bio-text {
@@ -87,8 +75,6 @@
             text-align: center;
             line-height: 1.5;
             margin: 0;
-            opacity: 0;
-            transform: translateY(20px);
             color: var(--text-color);
         }
         
@@ -97,8 +83,6 @@
             color: var(--accent-color);
             text-decoration: none;
             padding: 10px 20px;
-            opacity: 0;
-            transform: translateY(20px);
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -148,20 +132,6 @@
             margin-bottom: 20px;
         }
         
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1 }
-            50% { opacity: 0 }
-        }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -182,17 +152,17 @@
          class="corner-image">
     
     <div class="main-screen" id="mainScreen">
-        <div class="main-title" id="title">BIO</div>
+        <div class="main-title">BIO</div>
         
-        <div class="bio-text" id="bioText">
+        <div class="bio-text">
             Я Wrein, видеомонтажер среднего уровня. Занимаюсь видеомонтажом уже несколько лет.<br><br>
             Использую такие приложения, как: CapCut и Alight Motion.<br><br>
             Предоставляю услуги: продажа готовых эффектов (паков) и видеомонтаж на заказ.<br><br>
             Принимаю оплату звёздами и криптовалютой.
         </div>
         
-        <a href="https://t.me/simbaboss1" target="_blank" class="typing-link" id="authorLink">Автор</a>
-        <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link" id="botLink">Бот</a>
+        <a href="https://t.me/simbaboss1" target="_blank" class="typing-link">Автор</a>
+        <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link">Бот</a>
         <div class="typing-link" id="priceBtn">Price</div>
         <div class="typing-link" id="reviewsBtn">Отзывы</div>
     </div>
@@ -209,34 +179,6 @@
     </div>
 
     <script>
-        // Анимация появления элементов
-        function animateElements() {
-            // Появление заголовка BIO
-            setTimeout(() => {
-                document.getElementById('title').style.animation = 'typing 1s steps(4) forwards';
-                document.getElementById('title').style.width = '0';
-                
-                // Появление текста
-                setTimeout(() => {
-                    document.getElementById('bioText').style.animation = 'fadeIn 1s forwards';
-                    
-                    // Появление ссылок
-                    setTimeout(() => {
-                        document.getElementById('authorLink').style.animation = 'fadeIn 0.8s forwards';
-                        setTimeout(() => {
-                            document.getElementById('botLink').style.animation = 'fadeIn 0.8s forwards';
-                            setTimeout(() => {
-                                document.getElementById('priceBtn').style.animation = 'fadeIn 0.8s forwards';
-                                setTimeout(() => {
-                                    document.getElementById('reviewsBtn').style.animation = 'fadeIn 0.8s forwards';
-                                }, 300);
-                            }, 300);
-                        }, 300);
-                    }, 500);
-                }, 1000);
-            }, 300);
-        }
-
         // Переключение темы
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
@@ -269,9 +211,6 @@
             document.getElementById('reviewsScreen').style.display = 'none';
             document.getElementById('mainScreen').style.display = 'flex';
         });
-
-        // Запуск анимации при загрузке страницы
-        window.onload = animateElements;
     </script>
 </body>
 </html>
