@@ -15,8 +15,9 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             position: relative;
+            overflow-x: hidden;
         }
         
         .corner-image {
@@ -32,53 +33,54 @@
             animation: pulse 2s infinite;
         }
         
-        .typing {
+        .main-title {
             font-size: 48px;
             font-weight: bold;
+            margin-bottom: 20px;
+            position: relative;
             overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: 2px;
-            border-right: 3px solid limegreen;
-            animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
+        }
+        
+        .main-title::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: limegreen;
+            animation: blink 0.7s infinite;
         }
         
         .bio-text {
             max-width: 500px;
             text-align: center;
             line-height: 1.5;
-            margin: 20px 0;
+            margin: 0;
             opacity: 0;
-            animation: fadeIn 1s ease-in 3s forwards;
+            transform: translateY(20px);
         }
         
         .typing-link {
             font-size: 24px;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: 1px;
             color: limegreen;
             text-decoration: none;
             padding: 10px 20px;
-            border-right: 2px solid limegreen;
-            animation: typing 2s steps(30, end) forwards, blink-caret .75s step-end infinite;
             opacity: 0;
+            transform: translateY(20px);
         }
         
         @keyframes typing {
-            from { width: 0; opacity: 1; }
-            to { width: 100%; opacity: 1; }
+            from { width: 0 }
+            to { width: 100% }
         }
         
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: limegreen }
+        @keyframes blink {
+            0%, 100% { opacity: 1 }
+            50% { opacity: 0 }
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes pulse {
@@ -91,16 +93,6 @@
             text-shadow: 0 0 10px limegreen;
             transform: scale(1.1);
             transition: all 0.3s;
-            animation: none;
-            border-right: none;
-        }
-        
-        #author-link {
-            animation-delay: 3s;
-        }
-        
-        #bot-link {
-            animation-delay: 5s;
         }
     </style>
 </head>
@@ -109,16 +101,43 @@
          alt="Кот с голубыми глазами" 
          class="corner-image">
     
-    <div class="typing">BIO</div>
+    <div class="main-title" id="title">BIO</div>
     
-    <div class="bio-text">
-        Я Wrein, видеомонтажер среднего уровня. Занимаюсь видеомонтажом уже несколько лет. 
-        Использую такие приложения, как: CapCut и Alight Motion. 
-        Предоставляю услуги: продажа готовых эффектов (паков) и видеомонтаж на заказ. 
+    <div class="bio-text" id="bioText">
+        Я Wrein, видеомонтажер среднего уровня. Занимаюсь видеомонтажом уже несколько лет.<br><br>
+        Использую такие приложения, как: CapCut и Alight Motion.<br><br>
+        Предоставляю услуги: продажа готовых эффектов (паков) и видеомонтаж на заказ.<br><br>
         Принимаю оплату звёздами и криптовалютой.
     </div>
     
-    <a href="https://t.me/simbaboss1" target="_blank" class="typing-link" id="author-link">Автор</a>
-    <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link" id="bot-link">Бот</a>
+    <a href="https://t.me/simbaboss1" target="_blank" class="typing-link" id="authorLink">Автор</a>
+    <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link" id="botLink">Бот</a>
+
+    <script>
+        // Анимация появления элементов
+        function animateElements() {
+            // Появление заголовка BIO
+            setTimeout(() => {
+                document.getElementById('title').style.animation = 'typing 1s steps(4) forwards';
+                document.getElementById('title').style.width = '0';
+                
+                // Появление текста
+                setTimeout(() => {
+                    document.getElementById('bioText').style.animation = 'fadeIn 1s forwards';
+                    
+                    // Появление ссылок
+                    setTimeout(() => {
+                        document.getElementById('authorLink').style.animation = 'fadeIn 0.8s forwards';
+                        setTimeout(() => {
+                            document.getElementById('botLink').style.animation = 'fadeIn 0.8s forwards';
+                        }, 300);
+                    }, 500);
+                }, 1000);
+            }, 300);
+        }
+
+        // Запуск анимации при загрузке страницы
+        window.onload = animateElements;
+    </script>
 </body>
 </html>
