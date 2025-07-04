@@ -26,13 +26,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             flex-direction: column;
             gap: 15px;
             position: relative;
             overflow-x: hidden;
             transition: all 0.3s ease;
+            padding: 20px;
+            box-sizing: border-box;
         }
         
         .theme-toggle {
@@ -63,6 +65,14 @@
             animation: pulse 2s infinite;
         }
         
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        
         .main-title {
             font-size: 48px;
             font-weight: bold;
@@ -71,11 +81,18 @@
         }
         
         .bio-text {
-            max-width: 500px;
             text-align: center;
             line-height: 1.5;
-            margin: 0;
+            margin-bottom: 20px;
             color: var(--text-color);
+        }
+        
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
         }
         
         .typing-link {
@@ -92,6 +109,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
+            margin-bottom: 30px;
         }
         
         .price-btn {
@@ -111,25 +129,22 @@
             box-shadow: 0 0 15px var(--accent-color);
         }
         
-        .back-btn {
-            font-size: 18px;
-            color: var(--accent-color);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
+        .reviews-section {
+            margin-top: 30px;
+            text-align: center;
+            border-top: 1px solid var(--accent-color);
+            padding-top: 20px;
+            width: 100%;
         }
         
-        .reviews-screen {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+        .reviews-title {
+            font-size: 24px;
+            margin-bottom: 10px;
         }
         
         .reviews-text {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 18px;
+            color: var(--text-color);
         }
         
         @keyframes pulse {
@@ -151,7 +166,7 @@
          alt="Кот с голубыми глазами" 
          class="corner-image">
     
-    <div class="main-screen" id="mainScreen">
+    <div class="main-content">
         <div class="main-title">BIO</div>
         
         <div class="bio-text">
@@ -161,21 +176,21 @@
             Принимаю оплату звёздами и криптовалютой.
         </div>
         
-        <a href="https://t.me/simbaboss1" target="_blank" class="typing-link">Автор</a>
-        <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link">Бот</a>
-        <div class="typing-link" id="priceBtn">Price</div>
-        <div class="typing-link" id="reviewsBtn">Отзывы</div>
-    </div>
-    
-    <div class="price-screen" id="priceScreen">
-        <a href="http://t.me/send?start=IVOTwQe9njbk" target="_blank" class="price-btn">Пак - 0.2$/25⭐️</a>
-        <a href="http://t.me/send?start=IVFx6NVTGl0x" target="_blank" class="price-btn">Эдит - 0.3$/25+15⭐️</a>
-        <button class="back-btn" id="priceBackBtn">Назад</button>
-    </div>
-    
-    <div class="reviews-screen" id="reviewsScreen">
-        <div class="reviews-text">Отзывов пока нет</div>
-        <button class="back-btn" id="reviewsBackBtn">Назад</button>
+        <div class="links-container">
+            <a href="https://t.me/simbaboss1" target="_blank" class="typing-link">Автор</a>
+            <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link">Бот</a>
+            <div class="typing-link" id="priceBtn">Price</div>
+        </div>
+        
+        <div class="price-screen" id="priceScreen">
+            <a href="http://t.me/send?start=IVOTwQe9njbk" target="_blank" class="price-btn">Пак - 0.2$/25⭐️</a>
+            <a href="http://t.me/send?start=IVFx6NVTGl0x" target="_blank" class="price-btn">Эдит - 0.3$/25+15⭐️</a>
+        </div>
+        
+        <div class="reviews-section">
+            <div class="reviews-title">Отзывы</div>
+            <div class="reviews-text">Отзывов пока нет</div>
+        </div>
     </div>
 
     <script>
@@ -186,30 +201,16 @@
             themeToggle.textContent = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
         });
 
-        // Переключение на экран с ценами
-        document.getElementById('priceBtn').addEventListener('click', function() {
-            document.getElementById('mainScreen').style.display = 'none';
-            document.getElementById('priceScreen').style.display = 'flex';
-            document.getElementById('reviewsScreen').style.display = 'none';
-        });
-
-        // Переключение на экран с отзывами
-        document.getElementById('reviewsBtn').addEventListener('click', function() {
-            document.getElementById('mainScreen').style.display = 'none';
-            document.getElementById('priceScreen').style.display = 'none';
-            document.getElementById('reviewsScreen').style.display = 'flex';
-        });
-
-        // Возврат в главное меню из цен
-        document.getElementById('priceBackBtn').addEventListener('click', function() {
-            document.getElementById('priceScreen').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'flex';
-        });
-
-        // Возврат в главное меню из отзывов
-        document.getElementById('reviewsBackBtn').addEventListener('click', function() {
-            document.getElementById('reviewsScreen').style.display = 'none';
-            document.getElementById('mainScreen').style.display = 'flex';
+        // Переключение цен
+        const priceBtn = document.getElementById('priceBtn');
+        const priceScreen = document.getElementById('priceScreen');
+        
+        priceBtn.addEventListener('click', function() {
+            if (priceScreen.style.display === 'flex') {
+                priceScreen.style.display = 'none';
+            } else {
+                priceScreen.style.display = 'flex';
+            }
         });
     </script>
 </body>
