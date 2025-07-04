@@ -167,6 +167,8 @@
     </style>
 </head>
 <body>
+    <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-quick-jump-arcade-game-239.mp3" preload="auto"></audio>
+    
     <button class="theme-toggle" id="themeToggle">🌙</button>
     
     <img src="https://i.postimg.cc/1tm5gTyR/vertical-shot-grey-cat-with-blue-eyes-dark-181624-34787.jpg" 
@@ -188,7 +190,6 @@
                 Для связи (если у вас бан в телеграм)
             </a>
             <a href="https://t.me/luksius" target="_blank" class="typing-link small-link">Владелец сайта</a>
-            <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link">Бот</a>
             <div class="typing-link" id="priceBtn">Price</div>
         </div>
         
@@ -204,9 +205,18 @@
     </div>
 
     <script>
+        // Звук щелчка
+        const clickSound = document.getElementById('clickSound');
+        
+        function playClickSound() {
+            clickSound.currentTime = 0;
+            clickSound.play();
+        }
+        
         // Переключение темы
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
+            playClickSound();
             document.body.classList.toggle('light-theme');
             themeToggle.textContent = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
         });
@@ -216,11 +226,17 @@
         const priceScreen = document.getElementById('priceScreen');
         
         priceBtn.addEventListener('click', function() {
+            playClickSound();
             if (priceScreen.style.display === 'flex') {
                 priceScreen.style.display = 'none';
             } else {
                 priceScreen.style.display = 'flex';
             }
+        });
+        
+        // Добавляем звук щелчка для всех кликабельных элементов
+        document.querySelectorAll('a, .typing-link, .price-btn').forEach(element => {
+            element.addEventListener('click', playClickSound);
         });
     </script>
 </body>
