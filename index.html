@@ -32,33 +32,78 @@
             animation: pulse 2s infinite;
         }
         
+        .typing-text {
+            font-size: 48px;
+            font-weight: bold;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+        }
+        
+        .typing-link {
+            font-size: 24px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 10px auto;
+            letter-spacing: 1px;
+            color: limegreen;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: limegreen }
+        }
+        
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
         
-        a {
-            color: limegreen;
-            text-decoration: none;
-            font-size: 24px;
-            transition: all 0.3s;
-            padding: 10px 20px;
-        }
-        
-        a:hover {
+        .typing-link:hover {
             text-shadow: 0 0 10px limegreen;
             transform: scale(1.1);
+            transition: all 0.3s;
         }
     </style>
 </head>
 <body>
-    <!-- Ваше изображение кота -->
     <img src="https://i.postimg.cc/1tm5gTyR/vertical-shot-grey-cat-with-blue-eyes-dark-181624-34787.jpg" 
          alt="Кот с голубыми глазами" 
          class="corner-image">
     
-    <a href="https://t.me/simbaboss1" target="_blank">Автор</a>
-    <a href="https://t.me/proverkabotaa1118_bot" target="_blank">Бот</a>
+    <div class="typing-text" id="bio-text"></div>
+    <a href="https://t.me/simbaboss1" target="_blank" class="typing-link" id="author-link"></a>
+    <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link" id="bot-link"></a>
+
+    <script>
+        // Функция для анимации печати текста
+        function typeWriter(element, text, speed, delay) {
+            setTimeout(() => {
+                let i = 0;
+                const typingInterval = setInterval(() => {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typingInterval);
+                    }
+                }, speed);
+            }, delay);
+        }
+
+        // Запускаем анимации с разными задержками
+        typeWriter(document.getElementById('bio-text'), 'BIO', 150, 0);
+        typeWriter(document.getElementById('author-link'), 'Автор', 100, 600);
+        typeWriter(document.getElementById('bot-link'), 'Бот', 100, 900);
+    </script>
 </body>
 </html>
