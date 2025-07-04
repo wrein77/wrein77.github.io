@@ -67,6 +67,48 @@
             padding: 10px 20px;
             opacity: 0;
             transform: translateY(20px);
+            cursor: pointer;
+        }
+        
+        .price-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .price-btn {
+            font-size: 20px;
+            color: limegreen;
+            background: transparent;
+            border: 1px solid limegreen;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .price-btn:hover {
+            background: limegreen;
+            color: black;
+            box-shadow: 0 0 15px limegreen;
+        }
+        
+        .back-btn {
+            font-size: 18px;
+            color: limegreen;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .reviews-text {
+            display: none;
+            font-size: 18px;
+            color: limegreen;
+            text-align: center;
+            margin-top: 20px;
         }
         
         @keyframes typing {
@@ -101,17 +143,29 @@
          alt="Кот с голубыми глазами" 
          class="corner-image">
     
-    <div class="main-title" id="title">BIO</div>
-    
-    <div class="bio-text" id="bioText">
-        Я Wrein, видеомонтажер среднего уровня. Занимаюсь видеомонтажом уже несколько лет.<br><br>
-        Использую такие приложения, как: CapCut и Alight Motion.<br><br>
-        Предоставляю услуги: продажа готовых эффектов (паков) и видеомонтаж на заказ.<br><br>
-        Принимаю оплату звёздами и криптовалютой.
+    <div class="main-screen" id="mainScreen">
+        <div class="main-title" id="title">BIO</div>
+        
+        <div class="bio-text" id="bioText">
+            Я Wrein, видеомонтажер среднего уровня. Занимаюсь видеомонтажом уже несколько лет.<br><br>
+            Использую такие приложения, как: CapCut и Alight Motion.<br><br>
+            Предоставляю услуги: продажа готовых эффектов (паков) и видеомонтаж на заказ.<br><br>
+            Принимаю оплату звёздами и криптовалютой.
+        </div>
+        
+        <a href="https://t.me/simbaboss1" target="_blank" class="typing-link" id="authorLink">Автор</a>
+        <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link" id="botLink">Бот</a>
+        <div class="typing-link" id="priceBtn">Price</div>
+        <div class="typing-link" id="reviewsBtn">Отзывы</div>
     </div>
     
-    <a href="https://t.me/simbaboss1" target="_blank" class="typing-link" id="authorLink">Автор</a>
-    <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link" id="botLink">Бот</a>
+    <div class="price-screen" id="priceScreen">
+        <a href="http://t.me/send?start=IVOTwQe9njbk" target="_blank" class="price-btn">Пак - 0.2$/25⭐️</a>
+        <a href="http://t.me/send?start=IVFx6NVTGl0x" target="_blank" class="price-btn">Эдит - 0.3$/25+15⭐️</a>
+        <button class="back-btn" id="backBtn">Назад</button>
+    </div>
+    
+    <div class="reviews-text" id="reviewsText">Пока отзывов нет</div>
 
     <script>
         // Анимация появления элементов
@@ -130,11 +184,39 @@
                         document.getElementById('authorLink').style.animation = 'fadeIn 0.8s forwards';
                         setTimeout(() => {
                             document.getElementById('botLink').style.animation = 'fadeIn 0.8s forwards';
+                            setTimeout(() => {
+                                document.getElementById('priceBtn').style.animation = 'fadeIn 0.8s forwards';
+                                setTimeout(() => {
+                                    document.getElementById('reviewsBtn').style.animation = 'fadeIn 0.8s forwards';
+                                }, 300);
+                            }, 300);
                         }, 300);
                     }, 500);
                 }, 1000);
             }, 300);
         }
+
+        // Переключение на экран с ценами
+        document.getElementById('priceBtn').addEventListener('click', function() {
+            document.getElementById('mainScreen').style.display = 'none';
+            document.getElementById('priceScreen').style.display = 'flex';
+            document.getElementById('reviewsText').style.display = 'none';
+        });
+
+        // Возврат в главное меню
+        document.getElementById('backBtn').addEventListener('click', function() {
+            document.getElementById('priceScreen').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'flex';
+            document.getElementById('reviewsText').style.display = 'none';
+        });
+
+        // Показ отзывов
+        document.getElementById('reviewsBtn').addEventListener('click', function() {
+            document.getElementById('reviewsText').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('reviewsText').style.opacity = '1';
+            }, 10);
+        });
 
         // Запуск анимации при загрузке страницы
         window.onload = animateElements;
