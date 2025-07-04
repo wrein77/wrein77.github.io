@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Простой сайт</title>
+    <title>BIO WREIN</title>
     <style>
         body {
             background-color: black;
@@ -16,20 +16,81 @@
             margin: 0;
             flex-direction: column;
             gap: 20px;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .corner-image {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid limegreen;
+            box-shadow: 0 0 15px limegreen;
+            animation: pulse 2s infinite;
+        }
+        
         a {
             color: limegreen;
             text-decoration: none;
             font-size: 24px;
             transition: 0.3s;
+            position: relative;
+            padding: 10px 20px;
         }
+        
         a:hover {
             text-shadow: 0 0 10px limegreen;
+            transform: scale(1.1);
+        }
+        
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: limegreen;
+            transition: width 0.3s;
+        }
+        
+        a:hover::after {
+            width: 100%;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(50, 205, 50, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(50, 205, 50, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(50, 205, 50, 0);
+            }
+        }
+        
+        .glow {
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px limegreen;
+            }
+            to {
+                text-shadow: 0 0 15px limegreen, 0 0 20px limegreen;
+            }
         }
     </style>
 </head>
 <body>
-    <a href="https://t.me/simbaboss1" target="_blank">Автор</a>
-    <a href="https://t.me/proverkabotaa1118_bot" target="_blank">Бот</a>
+    <img src="https://i.imgur.com/934RQKa.png" alt="Логотип" class="corner-image">
+    <a href="https://t.me/simbaboss1" target="_blank" class="glow">Автор</a>
+    <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="glow">Бот</a>
 </body>
 </html>
