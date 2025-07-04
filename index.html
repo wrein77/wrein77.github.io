@@ -91,8 +91,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 30px;
+            width: 100%;
         }
         
         .typing-link {
@@ -102,6 +103,12 @@
             padding: 10px 20px;
             cursor: pointer;
             transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .small-link {
+            font-size: 16px;
+            margin-top: -5px;
         }
         
         .price-screen {
@@ -177,7 +184,10 @@
         </div>
         
         <div class="links-container">
-            <a href="http://t.me/anonaskbot?start=uKFtqoBX7OvIfdq" target="_blank" class="typing-link">Для связи</a>
+            <a href="http://t.me/anonaskbot?start=uKFtqoBX7OvIfdq" target="_blank" class="typing-link">
+                Для связи (если у вас бан в телеграм)
+            </a>
+            <a href="https://t.me/luksius" target="_blank" class="typing-link small-link">Владелец сайта</a>
             <a href="https://t.me/proverkabotaa1118_bot" target="_blank" class="typing-link">Бот</a>
             <div class="typing-link" id="priceBtn">Price</div>
         </div>
