@@ -115,19 +115,33 @@
             color: #ff1493;
         }
 
-        .no-reviews {
-            font-style: italic;
-            color: #b85c8a;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5);
+        .review {
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
             border-radius: 10px;
             max-width: 80%;
-            margin: 0 auto;
+            margin: 0 auto 15px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-text {
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .review-rating {
+            font-weight: bold;
+            color: #ff69b4;
         }
 
         .star {
             color: gold;
             text-shadow: 0 0 3px rgba(255, 215, 0, 0.7);
+        }
+
+        .heart {
+            color: #ff1493;
         }
     </style>
 </head>
@@ -144,7 +158,11 @@
         
         <div class="reviews">
             <h2>Отзывы</h2>
-            <div class="no-reviews">Отзывов пока нет</div>
+            
+            <div class="review">
+                <div class="review-text">"аватарка миленькая, мне очень нравится"</div>
+                <div class="review-rating">10/10 <span class="heart">😍</span></div>
+            </div>
         </div>
     </div>
     
