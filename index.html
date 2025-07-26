@@ -68,6 +68,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
         }
 
         .btn-buy {
@@ -95,6 +96,18 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
+        .btn-toggle-reviews {
+            background-color: #ff99cc;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn-toggle-reviews:hover {
+            background-color: #ff66b3;
+        }
+
         .price-display {
             margin: 25px;
             font-size: 28px;
@@ -105,9 +118,16 @@
         }
 
         .reviews {
-            margin-top: 60px;
-            padding-top: 30px;
+            margin-top: 30px;
+            padding-top: 20px;
             border-top: 2px dashed #ff66b3;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .reviews.show {
+            max-height: 1000px;
         }
 
         .reviews h2 {
@@ -156,7 +176,9 @@
         
         <div class="price-display" id="priceDisplay"></div>
         
-        <div class="reviews">
+        <button class="btn btn-toggle-reviews" id="toggleReviewsBtn">Открыть отзывы</button>
+        
+        <div class="reviews" id="reviewsSection">
             <h2>Отзывы</h2>
             
             <div class="review">
@@ -201,12 +223,10 @@
                 bubble.style.animationDelay = `${delay}s`;
                 bubble.style.backgroundColor = color;
                 
-                // Каждый шарик получает уникальную траекторию
                 const xMovement = (Math.random() - 0.5) * 100;
                 const yMovement = (Math.random() - 0.5) * 100;
                 bubble.style.animationName = `float-${i}`;
                 
-                // Динамически создаем анимацию для каждого шарика
                 const style = document.createElement('style');
                 style.innerHTML = `
                     @keyframes float-${i} {
@@ -237,10 +257,23 @@
             const display = document.getElementById('priceDisplay');
             display.innerHTML = '<span class="star">7★</span> | 25₽';
             
-            // Анимация появления
             display.style.animation = 'none';
             void display.offsetWidth;
             display.style.animation = 'fadeIn 0.5s';
+        });
+        
+        // Обработчик кнопки отзывов
+        const toggleReviewsBtn = document.getElementById('toggleReviewsBtn');
+        const reviewsSection = document.getElementById('reviewsSection');
+        
+        toggleReviewsBtn.addEventListener('click', function() {
+            reviewsSection.classList.toggle('show');
+            
+            if (reviewsSection.classList.contains('show')) {
+                toggleReviewsBtn.textContent = 'Закрыть отзывы';
+            } else {
+                toggleReviewsBtn.textContent = 'Открыть отзывы';
+            }
         });
     </script>
 </body>
