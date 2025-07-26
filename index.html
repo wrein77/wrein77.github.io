@@ -8,116 +8,140 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #ffe6f2; /* Розовый фон */
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6f2;
             color: #d23369;
             overflow-x: hidden;
             position: relative;
+            min-height: 100vh;
         }
-        
-        /* Анимированные узоры на фоне */
-        .pattern {
+
+        /* Анимированные шарики */
+        .bubbles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.3;
+            overflow: hidden;
         }
-        
-        .pattern div {
+
+        .bubble {
             position: absolute;
+            bottom: -100px;
+            background: rgba(255, 102, 179, 0.3);
             border-radius: 50%;
-            animation: float 15s infinite linear;
+            animation: float 15s infinite ease-in;
         }
-        
+
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
-            100% { transform: translateY(0) rotate(360deg); opacity: 0.2; }
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
-        
+
         h1 {
             font-size: 36px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            color: #ff1493;
         }
-        
+
         .btn {
             display: inline-block;
             padding: 12px 30px;
-            margin: 10px;
+            margin: 15px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
             font-size: 18px;
             transition: all 0.3s ease;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .btn-buy {
             background-color: #ff66b3;
             color: white;
             border: 2px solid #ff66b3;
         }
-        
+
         .btn-buy:hover {
             background-color: #e60073;
             border-color: #e60073;
             transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .btn-price {
             background-color: white;
             color: #ff66b3;
             border: 2px solid #ff66b3;
         }
-        
+
         .btn-price:hover {
             background-color: #ffe6f2;
             transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .price-display {
-            margin: 20px;
-            font-size: 24px;
+            margin: 25px;
+            font-size: 28px;
             font-weight: bold;
-            height: 30px;
+            height: 40px;
+            color: #ff1493;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
-        
+
         .reviews {
-            margin-top: 50px;
+            margin-top: 60px;
             padding-top: 30px;
             border-top: 2px dashed #ff66b3;
         }
-        
+
         .reviews h2 {
             margin-bottom: 20px;
+            color: #ff1493;
         }
-        
+
         .no-reviews {
             font-style: italic;
             color: #b85c8a;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 10px;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .star {
+            color: gold;
+            text-shadow: 0 0 3px rgba(255, 215, 0, 0.7);
         }
     </style>
 </head>
 <body>
-    <!-- Анимированные узоры -->
-    <div class="pattern" id="pattern"></div>
+    <!-- Плавающие шарики -->
+    <div class="bubbles" id="bubbles"></div>
     
     <div class="container">
-        <h1>Купить аву</h1>
+        <h1>Купить аву/баннер</h1>
         
         <a href="https://t.me/isllovei" class="btn btn-buy" target="_blank">Купить аву</a>
         <br>
@@ -132,40 +156,57 @@
     </div>
     
     <script>
-        // Создание узоров на фоне
-        const pattern = document.getElementById('pattern');
-        const colors = ['#ff66b3', '#ff99cc', '#ffb3d9', '#ffcce6'];
+        // Создание плавающих шариков
+        const bubbles = document.getElementById('bubbles');
+        const bubbleColors = [
+            'rgba(255, 102, 179, 0.3)',
+            'rgba(255, 153, 204, 0.3)',
+            'rgba(255, 179, 217, 0.3)',
+            'rgba(255, 204, 230, 0.3)'
+        ];
         
-        for (let i = 0; i < 30; i++) {
-            const node = document.createElement('div');
-            const size = Math.random() * 100 + 20;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const delay = Math.random() * 15;
-            const duration = 10 + Math.random() * 20;
-            
-            node.style.width = `${size}px`;
-            node.style.height = `${size}px`;
-            node.style.left = `${posX}%`;
-            node.style.top = `${posY}%`;
-            node.style.backgroundColor = color;
-            node.style.animationDelay = `${delay}s`;
-            node.style.animationDuration = `${duration}s`;
-            
-            pattern.appendChild(node);
+        function createBubbles() {
+            for (let i = 0; i < 50; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                const size = Math.random() * 100 + 20;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 15;
+                const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${posX}%`;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.animationDelay = `${delay}s`;
+                bubble.style.backgroundColor = color;
+                
+                bubbles.appendChild(bubble);
+            }
         }
+        
+        createBubbles();
         
         // Обработчик кнопки цены
         document.getElementById('priceBtn').addEventListener('click', function() {
             const display = document.getElementById('priceDisplay');
-            display.textContent = '7 звёзд';
+            display.innerHTML = '<span class="star">7★</span> | 25₽';
             
             // Анимация появления
             display.style.animation = 'none';
-            void display.offsetWidth; // Trigger reflow
+            void display.offsetWidth;
             display.style.animation = 'fadeIn 0.5s';
         });
+        
+        // Добавляем новые шарики каждые 10 секунд
+        setInterval(() => {
+            const existingBubbles = document.querySelectorAll('.bubble');
+            if (existingBubbles.length < 30) {
+                createBubbles();
+            }
+        }, 10000);
     </script>
 </body>
 </html>
