@@ -26,7 +26,6 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
-            overflow: hidden;
         }
 
         .bubble {
@@ -34,20 +33,23 @@
             background: rgba(255, 102, 179, 0.3);
             border-radius: 50%;
             animation: float 15s infinite ease-in-out;
-            will-change: transform; /* Оптимизация анимации */
         }
 
         @keyframes float {
-            0%, 100% {
+            0% {
                 transform: translate(0, 0) rotate(0deg);
                 opacity: 0.5;
             }
             50% {
+                transform: translate(50px, 30px) rotate(180deg);
                 opacity: 0.8;
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+                opacity: 0.5;
             }
         }
 
-        /* Остальные стили остаются без изменений */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -59,14 +61,126 @@
             height: auto;
         }
 
-        /* ... остальные стили ... */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        .btn-buy {
+            background-color: #ff66b3;
+            color: white;
+            border: 2px solid #ff66b3;
+        }
+
+        .btn-buy:hover {
+            background-color: #e60073;
+            border-color: #e60073;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-price {
+            background-color: white;
+            color: #ff66b3;
+            border: 2px solid #ff66b3;
+        }
+
+        .btn-price:hover {
+            background-color: #ffe6f2;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-toggle-reviews {
+            background-color: #ff99cc;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn-toggle-reviews:hover {
+            background-color: #ff66b3;
+        }
+
+        .price-display {
+            margin: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            height: 40px;
+            color: #ff1493;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .reviews {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #ff66b3;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .reviews.show {
+            max-height: 1500px;
+        }
+
+        .reviews h2 {
+            margin-bottom: 20px;
+            color: #ff1493;
+        }
+
+        .review {
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            max-width: 80%;
+            margin: 0 auto 15px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-text {
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .review-rating {
+            font-weight: bold;
+            color: #ff69b4;
+        }
+
+        .star {
+            color: gold;
+            text-shadow: 0 0 3px rgba(255, 215, 0, 0.7);
+        }
+
+        .heart {
+            color: #ff1493;
+        }
+
+        .cry {
+            color: #66b3ff;
+        }
+
+        .footer-space {
+            height: 100px;
+        }
     </style>
 </head>
 <body>
     <div class="bubbles" id="bubbles"></div>
     
     <div class="container">
-        <!-- Ваш контент без изменений -->
         <a href="https://t.me/isllovei" class="btn btn-buy" target="_blank">Купить аву</a>
         <br>
         <button class="btn btn-price" id="priceBtn">Цена</button>
@@ -103,17 +217,15 @@
     </div>
     
     <script>
-        // Создаем шарики один раз при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            const bubbles = document.getElementById('bubbles');
-            const bubbleColors = [
-                'rgba(255, 102, 179, 0.3)',
-                'rgba(255, 153, 204, 0.3)',
-                'rgba(255, 179, 217, 0.3)',
-                'rgba(255, 204, 230, 0.3)'
-            ];
-            
-            // Создаем уникальные анимации для каждого шарика
+        const bubbles = document.getElementById('bubbles');
+        const bubbleColors = [
+            'rgba(255, 102, 179, 0.3)',
+            'rgba(255, 153, 204, 0.3)',
+            'rgba(255, 179, 217, 0.3)',
+            'rgba(255, 204, 230, 0.3)'
+        ];
+        
+        function createBubbles() {
             for (let i = 0; i < 30; i++) {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
@@ -121,49 +233,51 @@
                 const size = Math.random() * 80 + 20;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
-                const duration = 15 + Math.random() * 15;
-                const delay = Math.random() * 5;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 15;
                 const color = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
                 
-                // Фиксируем начальные позиции
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
                 bubble.style.left = `${posX}%`;
                 bubble.style.top = `${posY}%`;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.animationDelay = `${delay}s`;
                 bubble.style.backgroundColor = color;
                 
-                // Создаем уникальную анимацию
-                const animName = `floatAnim${i}`;
-                const xMove = (Math.random() - 0.5) * 100;
-                const yMove = (Math.random() - 0.5) * 100;
-                const rot = 180 + Math.random() * 180;
+                const xMovement = (Math.random() - 0.5) * 100;
+                const yMovement = (Math.random() - 0.5) * 100;
+                bubble.style.animationName = `float-${i}`;
                 
                 const style = document.createElement('style');
                 style.innerHTML = `
-                    @keyframes ${animName} {
-                        0%, 100% {
+                    @keyframes float-${i} {
+                        0% {
                             transform: translate(0, 0) rotate(0deg);
                             opacity: 0.5;
                         }
                         50% {
-                            transform: translate(${xMove}px, ${yMove}px) rotate(${rot}deg);
+                            transform: translate(${xMovement}px, ${yMovement}px) rotate(180deg);
                             opacity: 0.8;
                         }
-                    }
-                    .bubble:nth-child(${i+1}) {
-                        animation: ${animName} ${duration}s ${delay}s infinite ease-in-out;
+                        100% {
+                            transform: translate(0, 0) rotate(360deg);
+                            opacity: 0.5;
+                        }
                     }
                 `;
                 document.head.appendChild(style);
                 
                 bubbles.appendChild(bubble);
             }
-        });
-
-        // Остальной JavaScript код без изменений
+        }
+        
+        createBubbles();
+        
         document.getElementById('priceBtn').addEventListener('click', function() {
             const display = document.getElementById('priceDisplay');
             display.innerHTML = '<span class="star">7★</span> | 25₽';
+            
             display.style.animation = 'none';
             void display.offsetWidth;
             display.style.animation = 'fadeIn 0.5s';
@@ -171,11 +285,15 @@
         
         const toggleReviewsBtn = document.getElementById('toggleReviewsBtn');
         const reviewsSection = document.getElementById('reviewsSection');
+        
         toggleReviewsBtn.addEventListener('click', function() {
             reviewsSection.classList.toggle('show');
-            toggleReviewsBtn.textContent = reviewsSection.classList.contains('show') 
-                ? 'Закрыть отзывы' 
-                : 'Открыть отзывы';
+            
+            if (reviewsSection.classList.contains('show')) {
+                toggleReviewsBtn.textContent = 'Закрыть отзывы';
+            } else {
+                toggleReviewsBtn.textContent = 'Открыть отзывы';
+            }
         });
     </script>
 </body>
